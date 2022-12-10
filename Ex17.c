@@ -1,5 +1,5 @@
 //
-//  Ex2.c
+//  Ex17.c
 //  TME3
 //
 //  Created by Bogouslavsky Illia on 09/12/2022.
