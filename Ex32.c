@@ -35,19 +35,39 @@ int iteration(int el, int tab[], int taille){
     printf("Absent !\n");
     return 0;
 }
-int rechercher(int i, int el, int tab[], int taille){
+int recherche_rec_aux(int tab[], int taille, int i, int el){
     if (tab[i] != el && i < taille) {
         i += 1;
-        return rechercher(i, el, tab, taille);
+        return recherche_rec_aux(tab, taille, i, el);
     } else {
         if (tab[i] == el) {
             printf("Trouvée !\n");
-            return 1;
+            return i;
         } else {
             printf("Absent !\n");
-            return 0;
+            return -1;
         }
     }
+}
+int recherche_rec(int tab[], int taille, int el){
+    if (taille == 0) {
+        return -1;
+    } else if (tab[taille-1] == el) {
+            printf("Trouvée !\n");
+            return taille-1;
+    } else {
+        printf("Absent !\n");
+        return recherche_rec(tab, taille-1, el);
+    }
+}
+int rechercher_it(int tab[], int taille, int el){
+    int i;
+    for (i = 0; i < taille; i++) {
+        if (tab[i] == el) {
+            return i;
+        }
+    }
+    return -1;
 }
 int iterationTrie(int el, int tab[], int taille){
     int i;
@@ -63,7 +83,7 @@ int iterationTrie(int el, int tab[], int taille){
 int rechercherTrie(int i, int el, int tab[], int taille){
     if (tab[i] < el && i < taille) {
         i += 1;
-        return rechercher(i, el, tab, taille);
+        return recherche_rec_aux(tab, taille, i, el);
     } else {
         if (tab[i] == el) {
             printf("Trouvée !\n");
@@ -80,8 +100,8 @@ int main(){
     tab[taille] = *tabGen(tab,taille);
     iteration(9,tab,taille);
     iteration(0,tab,taille);
-    rechercher(0,9,tab,taille);
-    rechercher(0,0,tab,taille);
+    recherche_rec_aux(tab,taille,0,9);
+    recherche_rec_aux(tab,taille,0,0);
     int tabTrie[taille];
     tabTrie[taille] = *tabTrieGen(tabTrie,taille);
     iterationTrie(0,tabTrie,taille);
