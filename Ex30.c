@@ -143,6 +143,55 @@ int comparateur(int tab1[], int tab2[],int taille1,int taille2){
     }
 }
 
+//CodeRunner
+int compare_tab(int tab1[], int tab2[]) {
+    int i;
+    for (i = 0; tab1[i] != -1 && tab2[i] != -1; i++) {
+        if (tab1[i] != tab2[i]) {
+            return -1;
+        }
+    }
+    if(tab1[i] == -1 && tab2[i] != -1){
+        return -1;
+    }
+    if(tab2[i] == -1 && tab1[i] != -1){
+        return -1;
+    }
+    return 0;
+}
+//CodeRunner
+void compress_tabCR(int tab_brut[], int tab_compress[]) {
+    //i l'indice de parcourt du tableau brut
+    //j l'indice de parcourt du tableau compresse qui represente aussi sa taille
+    //rep le nombre de repetition du i-eme bit
+    int i;
+    int j = 0;
+    int rep = 0;
+    //on parcourt le tableau brut
+    for (i = 0; tab_brut[i] != -1; i++) {
+        //si le i-eme et le i-eme+1 sont identique on les comptes
+        if (tab_brut[i] == tab_brut[i+1]) {
+            while(tab_brut[i] == tab_brut[i+1]){
+                rep += 1;
+                i += 1;
+            }
+            //on ecrit ici le nombre de repetition du bit puis on reset la variable rep
+            tab_compress[j] = rep+1;
+            j += 1;
+            rep = 0;
+            //on ecrit le bit en qestion
+            tab_compress[j] = tab_brut[i];
+            j += 1;
+        //si le i-eme et le i-eme+1 ne sont pas identique on ecrit le bit directement
+        }else{
+            tab_compress[j] = tab_brut[i];
+            j += 1;
+        }
+    }
+    //on rajoute -1 le bit de fin
+    tab_compress[j] = tab_brut[i];
+}
+
 int main(){
     int brut[MAX];
     int brut2[MAX];
