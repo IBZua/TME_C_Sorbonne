@@ -52,6 +52,37 @@ void afficheur_est_incluse(int k){
         printf("La premiere chaine est incluse dans la seconde !\n");
     }
 }
+//CodeRunner
+int est_deb_rec(char* s1, char* s2) {
+    int i =0;
+    if(s1[i] == '\0'){
+        return 1;
+    }
+    if ((s1[i] == s2[i])&&((s1[i+1]=='\0')||(s1[i] == '\0'))){
+        return 1;
+    }else if (s1[i] != s2[i]){
+        return 0;
+    }else {
+        return est_deb_rec(s1+1, s2+1);
+    }
+}
+//CodeRunner
+int est_incluse_rec(char* s1, char* s2){
+    if (est_deb_rec(s1, s2) == 1) {
+        if (s1[0] == '\0') {
+            return 1;
+        }
+        return est_incluse_rec(s1+1, s2+1);
+    } else {
+        if (s1[0] == '\0') {
+            return 1;
+        }else if(s2[0] == '\0'){
+            return 0;
+        }else{
+            return est_incluse_rec(s1, s2+1);
+        }
+    }
+}
 
 int main(){
     char chaine1[] = "alpha";
