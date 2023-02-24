@@ -38,7 +38,10 @@ void modifieDensite(planete systemeSolaire[]){
     printf("planete: %s\n",systemeSolaire[numPlanete].nom);
     printf("densite: %f\n",systemeSolaire[numPlanete].densite);
 }
-
+//CodeRunner
+void affichePlaneteCR(planete systemeSolaire[], planete p){
+    printf("%s : densite = %.2f, distance soleil = %.1f, nb satellites = %d\n", p.nom, p.densite,p.distanceSoleil,p.satellites);
+}
 int main(){
     int numPlanete;
     printf("Quelle planete voulez-vous selectionner ?\n");
