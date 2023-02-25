@@ -9,20 +9,10 @@
 /* min_max met à jour ces deux valeurs en fonction de celle de l'entier */
 void min_max(int entier, int* min, int* max){
     if (entier < *min) {
-        while (entier < *min) {
-            *min -= 1;
-        }
-        if (entier > *max) {
-            while (entier > *max) {
-                *max += 1;
-            }
-        }
-    } else {
-        if (entier > *max) {
-            while (entier > *max) {
-                *max += 1;
-            }
-        }
+        *min = entier;
+    }
+    if (entier > *max) {
+        *max = entier;
     }
 }
 /*stats calcule le plus grand, le plus petit et la moyenne de quatre entiers en ne prenant en compte les valeurs que tant qu’elles sont strictement positives.
