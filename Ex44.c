@@ -7,67 +7,75 @@
 
 #include "Ex44.h"
 
-
+//CodeRunner 9.2.1
 element_t *Supprime_total_element_ensemble(element_t *ensemble, int val){
-    //le nouvel ensemble qui va stocker les valeur de l'ensemble - la valeur val
-    element_t *nouvelleEnsemble = ensemble;
     //si l'ensemble est vide
     if(ensemble == NULL){
         return NULL;
     }
-    //si le premier element est val on skip
-    if (nouvelleEnsemble->valeur == val) {
-        return nouvelleEnsemble->suivant;
+    //si le premier element est val
+    if (ensemble->valeur == val) {
+        element_t *Stock = ensemble->suivant;
+        free(ensemble);
+        ensemble = Stock;
+        return ensemble;
     }
     else{
+        //l'ensemble dont on va se servir pour parcourir l'ensemble initiale
+        element_t *ensembleP = ensemble;
+        //l'ensemble qui va stocker la valeur precedent
+        element_t *precedent = NULL;
         //on parcourt l'ensemble jusqu'à la position de val ou la fin
-        while (nouvelleEnsemble->suivant != NULL && nouvelleEnsemble->suivant->valeur != val) {
-            printf("test\n");
-            Affiche_ensemble(nouvelleEnsemble);
-            nouvelleEnsemble = nouvelleEnsemble->suivant;
-        }
-        Affiche_ensemble(nouvelleEnsemble);
-        //si l'ensemble est fini on renvoie l'ensemble
-        if(nouvelleEnsemble->suivant == NULL){
-            return ensemble;
-        }
-        //sinon ça veut dire que la prochaine valeur est val
-        else{
-            if(nouvelleEnsemble->suivant->suivant == NULL){
-                nouvelleEnsemble->suivant = NULL;
+        while (ensembleP != NULL) {
+            if(ensembleP->valeur == val){
+                element_t *Stock = ensembleP->suivant;
+                free(ensembleP);
+                precedent->suivant = Stock;
                 return ensemble;
             }
-            //on saute donc cette valeur
-            printf("la prochaine valeur est val\n");
-            nouvelleEnsemble->suivant = nouvelleEnsemble->suivant->suivant;
-            return ensemble;
+            precedent = ensembleP;
+            ensembleP = ensembleP->suivant;
         }
+        //si l'ensemble est fini on renvoie l'ensemble
         return ensemble;
     }
 }
-
+//CodeRunner 9.2.2
 element_t *Supprime_element_ensemble(element_t *ensemble, int val){
-    element_t *nouvelleEnsemble = ensemble;
-    if (nouvelleEnsemble->valeur == val) {
-        if (nouvelleEnsemble->frequence > 1) {
-            nouvelleEnsemble->frequence -= 1;
-        } else {
-            return nouvelleEnsemble->suivant;
-        }
-        return nouvelleEnsemble;
+ //si l'ensemble est vide
+    if(ensemble == NULL){
+        return NULL;
     }
-    while (nouvelleEnsemble->suivant != NULL && nouvelleEnsemble->suivant->valeur != val) {
-        nouvelleEnsemble = nouvelleEnsemble->suivant;
-    }if(nouvelleEnsemble->suivant == NULL){
-        return ensemble;
-    }else if(nouvelleEnsemble->suivant->valeur == val){
-        if (nouvelleEnsemble->suivant->frequence > 1) {
-            nouvelleEnsemble->suivant->frequence -= 1;
+    if (ensemble->valeur == val) {
+        if (ensemble->frequence > 1) {
+            ensemble->frequence -= 1;
         } else {
-            nouvelleEnsemble->suivant = nouvelleEnsemble->suivant->suivant;
+            //si le premier element est val
+            element_t *Stock = ensemble->suivant;
+            free(ensemble);
+            ensemble = Stock;
+        }
+        return ensemble;
+    }
+    //l'ensemble dont on va se servir pour parcourir l'ensemble initiale
+    element_t *ensembleP = ensemble;
+    //l'ensemble qui va stocker la valeur precedent
+    element_t *precedent = NULL;
+    while (ensembleP != NULL) {
+        if (ensembleP->valeur == val) {
+            if (ensembleP->frequence > 1) {
+                ensembleP->frequence -= 1;
+            } else {
+                element_t *Stock = ensembleP->suivant;
+                free(ensembleP);
+                precedent->suivant = Stock;
+                return ensemble;
+            }
             return ensemble;
         }
-        return ensemble;
-        }
+        precedent = ensembleP;
+        ensembleP = ensembleP->suivant;
+    }
+    //si l'ensemble est fini on renvoie l'ensemble
     return ensemble;
 }
