@@ -19,28 +19,19 @@ int taille(element_t *ensemble){
     }
 }
 
-element_t *Supprime_frequence_inf_seuil(element_t *ensemble, int seuil){
+element_t* Supprime_frequence_inf_seuil(element_t* ensemble, int seuil) {
     //si l'ensemble est vide
     if(ensemble == NULL){
         return NULL;
     }
     //si le premier element de l'ensemble est < seuil
     if (ensemble->frequence < seuil) {
-        printf("la freq du premier element %d est %i < seuil\n", ensemble->valeur, ensemble->frequence);
-        return Supprime_frequence_inf_seuil(ensemble->suivant, seuil);
+        element_t *tmp = ensemble->suivant;
+        free(ensemble);
+        ensemble = tmp;
+        return Supprime_frequence_inf_seuil(ensemble, seuil);
     }
-    //l'ensemble que l'on utilisera pour parcourir l'ensemble de base
-    element_t *ensembleP = ensemble;
     //si ce n'est pas le dernier element de l'ensemble, on le parcourt jusqu'à ce qu'il le soit
-    while (ensembleP->suivant != NULL) {
-        //si prochain element freq < seuil, le prochain element sera celui d'apres
-        printf("la freq de %d est %d\n", ensembleP->suivant->valeur, ensembleP->suivant->frequence);
-        if(ensembleP->suivant->frequence < seuil){
-            printf("on doit supprimer %i\n", ensembleP->suivant->valeur);
-            ensembleP->suivant = ensembleP->suivant->suivant;
-        }else{
-            ensembleP = ensembleP->suivant;
-        }
-    }
+    ensemble->suivant = Supprime_frequence_inf_seuil(ensemble->suivant, seuil);
     return ensemble;
 }
