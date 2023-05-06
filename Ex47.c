@@ -6,7 +6,7 @@
 //
 
 #include "Ex47.h"
-
+//CodeRunner 10.1.1
 int taille(element_t *ensemble){
     if(ensemble == NULL){
         return 0;
@@ -18,7 +18,7 @@ int taille(element_t *ensemble){
         return taille(ensemble);
     }
 }
-
+//CodeRunner 10.1.2
 element_t* Supprime_frequence_inf_seuil(element_t* ensemble, int seuil) {
     //si l'ensemble est vide
     if(ensemble == NULL){
