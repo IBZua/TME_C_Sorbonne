@@ -6,7 +6,7 @@
 //
 
 #include "Ex45.h"
-
+//CodeRunner 9.3.1
 element_t *Ajout_ensemble_trie(element_t *ensemble,int val, int freq){
     //si l'ensemble est vide
     if(ensemble == NULL){
@@ -61,33 +61,38 @@ element_t *Ajout_ensemble_trie(element_t *ensemble,int val, int freq){
     return ensemble;
 }
 
+//CodeRunner 9.3.2
 element_t *Supprime_total_element_ensemble_trie(element_t *ensemble, int val){
     //si l'ensemble est vide
     if(ensemble == NULL){
         return NULL;
     }
-    //si val est le 1er element de l'ensemble
-    if(ensemble->valeur == val){
-        return ensemble->suivant;
+    //si le premier element est val
+    if (ensemble->valeur == val) {
+        element_t *Stock = ensemble->suivant;
+        free(ensemble);
+        ensemble = Stock;
+        return ensemble;
     }
     //ensemble parcourut
     element_t* ensembleP = ensemble;
-    //si val n'est pas le premier element on le cherche dans le reste de l'ensemble
-    while (ensembleP->suivant != NULL && ensemble != NULL) {
+    //l'ensemble qui va stocker la valeur precedent
+    element_t *precedent = NULL;
+    //on cherche dans le reste de l'ensemble tant que valeur <= val
+    while (ensembleP != NULL && ensembleP->valeur <= val) {
         //si on trouve val
-        if(ensembleP->suivant->valeur == val){
-            ensembleP->suivant = ensembleP->suivant->suivant;
+        if(ensembleP->valeur == val){
+            element_t *Stock = ensembleP->suivant;
+            free(ensembleP);
+            precedent->suivant = Stock;
             return ensemble;
         }
+        precedent = ensembleP;
         ensembleP = ensembleP->suivant;
-    }
-    //si val est le dernier element
-    if(ensembleP->valeur == val){
-        ensembleP = NULL;
     }
     return ensemble;
 }
-
+//CodeRunner 9.3.3
 element_t *Supprime_element_ensemble_trie(element_t *ensemble, int val){
     //si l'ensemble est vide
     if(ensemble == NULL){
@@ -97,34 +102,32 @@ element_t *Supprime_element_ensemble_trie(element_t *ensemble, int val){
     if(ensemble->valeur == val){
         if(ensemble->frequence > 1){
             ensemble->frequence -= 1;
-            return ensemble;
         }else{
-            return ensemble->suivant;
+            element_t *Stock = ensemble->suivant;
+            free(ensemble);
+            ensemble = Stock;
         }
+        return ensemble;
     }
     //ensemble parcourut
     element_t* ensembleP = ensemble;
-    //si val n'est pas le premier element on le cherche dans le reste de l'ensemble
-    while (ensembleP->suivant != NULL && ensemble != NULL) {
+    //l'ensemble qui va stocker la valeur precedent
+    element_t *precedent = NULL;
+    //on cherche dans le reste de l'ensemble tant que valeur <= val
+    while (ensembleP != NULL && ensembleP->valeur <= val) {
         //si on trouve val
-        if(ensembleP->suivant->valeur == val){
-            if(ensembleP->suivant->frequence > 1){
-                ensembleP->suivant->frequence -= 1;
-                return ensemble;
+        if(ensembleP->valeur == val){
+            if(ensembleP->frequence > 1){
+                ensembleP->frequence -= 1;
             }else{
-                ensembleP->suivant = ensembleP->suivant->suivant;
-                return ensemble;
+                element_t *Stock = ensembleP->suivant;
+                free(ensembleP);
+                precedent->suivant = Stock;
             }
+            return ensemble;
         }
+        precedent = ensembleP;
         ensembleP = ensembleP->suivant;
-    }
-    //si val est le dernier element
-    if(ensembleP->valeur == val){
-        if(ensembleP->frequence > 1){
-            ensembleP->frequence -= 1;
-        }else{
-            ensembleP = NULL;
-        }
     }
     return ensemble;
 }
